@@ -1,0 +1,21 @@
+[Unit]
+Description=FortiClient SSL VPN
+Documentation=https://github.com/extra2000/forticlient
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/srv
+ExecStart=/usr/local/bin/forticlient-vpn-answerbot
+Restart=on-failure
+CPUAccounting = yes
+MemoryAccounting = yes
+
+[Journal]
+Storage="persistent"
+SystemMaxFileSize=20MB
+SystemMaxFiles=50
+
+[Install]
+WantedBy=multi-user.target

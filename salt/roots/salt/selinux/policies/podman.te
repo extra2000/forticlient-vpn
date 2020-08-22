@@ -1,0 +1,13 @@
+## Allow setattr access on the fifo_file.
+## Required for Podman on Centos 7.
+
+module podman 1.0;
+
+require {
+	type container_runtime_t;
+	type container_t;
+	class fifo_file setattr;
+}
+
+#============= container_t ==============
+allow container_t container_runtime_t:fifo_file setattr;

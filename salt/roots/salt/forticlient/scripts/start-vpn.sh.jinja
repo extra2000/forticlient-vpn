@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+## Setup masquerade, to allow using the container as a gateway
+## Credits: https://github.com/HybirdCorp/docker-forticlient/blob/4b50a72876ae4740762c3d7d241fc85828956eb4/start.sh#L9-L12
+for iface in $(ip a | grep eth | grep inet | awk '{print $2}'); do
+  sudo iptables -t nat -A POSTROUTING -s "$iface" -j MASQUERADE
+done
+
+sudo /opt/forticlient/vpn --server={{ salt['pillar.get']('credential:server') }} --cert-path=/srv/{{ salt['pillar.get']('credential:certificate') }} --cert-passwd
