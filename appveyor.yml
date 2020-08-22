@@ -8,7 +8,7 @@ install:
   - sudo vagrant plugin install vagrant-libvirt vagrant-scp vagrant-reload vagrant-vbguest
 build_script:
   - touch salt/roots/salt/forticlient/secrets/mycert.p12
-  - echo -e "credential:\n  server:\ 192.168.1.1\n  certificate:\ mycert.p12\n  certpasswd:\ abcde12345" > salt/roots/pillar/credential.sls
+  - echo '{"credential":{"server":"192.168.1.1","certificate":"mycert.p12","certpasswd":"abcde12345"}}' > salt/roots/pillar/credential.sls
   - cat salt/roots/pillar/credential.sls
   - sudo vagrant up --provider=libvirt
   - sudo vagrant ssh forticlient-box -- sudo salt-call state.highstate saltenv=base
