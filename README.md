@@ -1,6 +1,6 @@
 # forticlient-vpn
 
-Automate FortiClient VPN deployment
+Automate FortiClient VPN client deployment. Unfortunately, forwarding VPN connections to host is not reliable at the moment. Need to deploy on the gateway device.
 
 
 ## Prerequisites
