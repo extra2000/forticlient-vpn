@@ -45,27 +45,16 @@ $ vagrant ssh forticlient-box -- sudo salt-call state.sls forticlient.host.prese
 $ vagrant ssh forticlient-box -- sudo salt-call state.sls forticlient.host.deploy
 ```
 
-Execute on `forticlient-box`:
-```
-$ for iface in $(ip a | grep eth | grep inet | awk '{print $2}'); do sudo iptables -t nat -A POSTROUTING -s "$iface" -j MASQUERADE; done
-$ sudo iptables -t nat -A POSTROUTING -s 192.168.121.214 -j MASQUERADE
-```
-
-Supposed you want to connect with server `172.168.1.2` from host, execute the following command and then test with `ssh-keyscan`:
-```
-$ sudo ip route add 172.168.0.0/16 via `sudo virsh net-dhcp-leases vagrant-libvirt | grep forticlient-box | awk '{print $5}' | gawk 'match($0, /(.*)\//, a) {print a[1]}'`
-$ ssh-keyscan -t rsa 172.168.1.2
-```
-
 
 ### Deploy using Podman in Vagrant
 
-Supposed you want to connect with server `172.168.1.2` from `forticlient-box` guest (which is the host to the container), execute the following command and test with `ssh-keyscan`:
+Build the FortiClient VPN client image:
 ```
 $ vagrant ssh forticlient-box -- sudo salt-call state.sls forticlient.podman.present
+```
+
+To deploy:
+```
 $ vagrant ssh forticlient-box
 $ sudo podman run --privileged -it -d --rm --name forticlient-vpn-client localhost/extra2000/forticlient-vpn-client
-$ sudo ip route add default via `sudo podman inspect forticlient-vpn-client | grep IPAddress | awk '{print $2}' | gawk 'match($0, /\"(.*)\"/, a) {print a[1]}'`
-$ sudo ip route add 172.168.0.0/16 via `sudo podman inspect forticlient-vpn-client | grep IPAddress | awk '{print $2}' | gawk 'match($0, /\"(.*)\"/, a) {print a[1]}'`
-$ ssh-keyscan -t rsa 172.168.1.2
 ```
