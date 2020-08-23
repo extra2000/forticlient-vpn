@@ -1,4 +1,4 @@
-{%- if not salt['file.file_exists' ]('/usr/bin/podman') %}
+{% if not salt['file.file_exists' ]('/usr/bin/podman') %}
 
 https://github.com/containers/podman.git:
   git.detached:
@@ -17,4 +17,4 @@ build_and_install_podman:
       - pkg: common_packages
       - git: https://github.com/containers/podman.git
 
-{%- endif %}
+{% endif %}
