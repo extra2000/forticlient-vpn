@@ -1,0 +1,18 @@
+FROM centos:centos7
+MAINTAINER extra2000 <https://github.com/extra2000>
+
+ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_PRIORITY critical
+
+RUN yum install -y wget expect sudo iproute
+
+WORKDIR /tmp
+RUN wget https://filestore.fortinet.com/forticlient/downloads/FortiClientFullVPNInstaller_6.4.0.0851.rpm
+RUN yum install -y ./FortiClientFullVPNInstaller_6.4.0.0851.rpm
+
+COPY ./{{ pillar['credential']['certificate'] }} /srv/{{ pillar['credential']['certificate'] }}
+COPY ./start-vpn /usr/local/bin/start-vpn
+COPY ./forticlient-vpn-answerbot /usr/local/bin/forticlient-vpn-answerbot
+
+WORKDIR /root
+ENTRYPOINT /usr/local/bin/forticlient-vpn-answerbot

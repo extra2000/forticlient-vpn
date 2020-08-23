@@ -1,0 +1,4 @@
+#!/bin/bash
+set -e
+
+sudo /opt/forticlient/vpn --server={{ salt['pillar.get']('credential:server') }} --cert-path=/srv/{{ salt['pillar.get']('credential:certificate') }} --cert-passwd

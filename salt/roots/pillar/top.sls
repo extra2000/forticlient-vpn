@@ -1,0 +1,5 @@
+base:
+  '*':
+    - user
+    - credential
+    - forticlient
