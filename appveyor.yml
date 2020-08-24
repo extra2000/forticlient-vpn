@@ -6,6 +6,8 @@ install:
   - sudo wget -nv https://releases.hashicorp.com/vagrant/2.2.9/vagrant_2.2.9_x86_64.deb
   - sudo dpkg -i vagrant_2.2.9_x86_64.deb
   - sudo vagrant plugin install vagrant-libvirt vagrant-scp vagrant-reload vagrant-vbguest
+  - git submodule init
+  - git submodule update
 build_script:
   - touch salt/roots/formulas/forticlient-vpn-formula/forticlient-vpn/files/secrets/mycert.p12
   - echo '{"forticlient-vpn":{"credential":{"server":"192.168.1.1","certificate":"mycert.p12","certpasswd":"abcde12345"}}}' > salt/roots/pillar/forticlient-vpn.sls
