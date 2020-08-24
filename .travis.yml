@@ -21,10 +21,10 @@ jobs:
         - echo '{"credential":{"server":"192.168.1.1","certificate":"mycert.p12","certpasswd":"abcde12345"}}' > salt/roots/pillar/credential.sls
         - cat salt/roots/pillar/credential.sls
         - sudo vagrant up --provider=libvirt
-        - travis_wait sudo vagrant ssh forticlient-box -- sudo salt-call state.highstate saltenv=base
+        - travis_wait sudo vagrant ssh forticlient-centos7 -- sudo salt-call state.highstate saltenv=base
         - sudo vagrant reload
-        - sudo vagrant ssh forticlient-box -- sudo salt-call state.sls forticlient.host.present
-        - sudo vagrant ssh forticlient-box -- sudo salt-call state.sls forticlient.podman.present
+        - sudo vagrant ssh forticlient-centos7 -- sudo salt-call state.sls forticlient.host.present
+        - sudo vagrant ssh forticlient-centos7 -- sudo salt-call state.sls forticlient.podman.present
         - sudo vagrant destroy --force
 
     - stage: release

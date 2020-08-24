@@ -1,3 +1,5 @@
+{% if grains['os'] == 'CentOS' %}
+
 elrepo_key:
   cmd.run:
     - name: rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
@@ -14,3 +16,5 @@ elrepo:
       - until: True
       - attempts: 5
       - interval: 10
+
+{% endif %}

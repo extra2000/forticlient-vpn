@@ -33,10 +33,10 @@ credential:
   certpasswd: abcde12345
 ```
 
-Create `forticlient-box` Vagrant box and bootstrap it. You may change `libvirt` to other provider such as `virtualbox` or `hyperv`:
+Create `forticlient-centos7` Vagrant box and bootstrap it. You may change `libvirt` to other provider such as `virtualbox` or `hyperv`:
 ```
 $ vagrant up --provider=libvirt
-$ vagrant ssh forticlient-box -- sudo salt-call state.highstate saltenv=base
+$ vagrant ssh forticlient-centos7 -- sudo salt-call state.highstate saltenv=base
 $ vagrant reload
 ```
 
@@ -45,8 +45,8 @@ $ vagrant reload
 
 Install FortiClient VPN client and deploy using the following commands:
 ```
-$ vagrant ssh forticlient-box -- sudo salt-call state.sls forticlient.host.present
-$ vagrant ssh forticlient-box -- sudo salt-call state.sls forticlient.host.deploy
+$ vagrant ssh forticlient-centos7 -- sudo salt-call state.sls forticlient.host.present
+$ vagrant ssh forticlient-centos7 -- sudo salt-call state.sls forticlient.host.deploy
 ```
 
 
@@ -54,11 +54,11 @@ $ vagrant ssh forticlient-box -- sudo salt-call state.sls forticlient.host.deplo
 
 Build the FortiClient VPN client image:
 ```
-$ vagrant ssh forticlient-box -- sudo salt-call state.sls forticlient.podman.present
+$ vagrant ssh forticlient-centos7 -- sudo salt-call state.sls forticlient.podman.present
 ```
 
 To deploy:
 ```
-$ vagrant ssh forticlient-box
+$ vagrant ssh forticlient-centos7
 $ sudo podman run --privileged -it -d --rm --name forticlient-vpn-client localhost/extra2000/forticlient-vpn-client
 ```
