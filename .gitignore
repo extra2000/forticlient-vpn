@@ -1,2 +1,2 @@
 .vagrant
-salt/roots/pillar/credential.sls
+salt/roots/pillar/forticlient.sls
