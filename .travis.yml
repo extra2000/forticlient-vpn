@@ -19,7 +19,7 @@ jobs:
       script:
         - touch salt/roots/formulas/forticlient-vpn-formula/forticlient-vpn/files/secrets/mycert.p12
         - echo '{"forticlient-vpn":{"credential":{"server":"192.168.1.1","certificate":"mycert.p12","certpasswd":"abcde12345"}}}' > salt/roots/pillar/forticlient-vpn.sls
-        - sudo vagrant up --provider=libvirt forticlient-ubuntu1804
+        - travis_wait sudo vagrant up --provider=libvirt forticlient-ubuntu1804
         - travis_wait sudo vagrant ssh forticlient-ubuntu1804 -- sudo salt-call state.sls forticlient-vpn.package
         - travis_wait sudo vagrant ssh forticlient-ubuntu1804 -- sudo salt-call state.sls forticlient-vpn.config
         - travis_wait sudo vagrant ssh forticlient-ubuntu1804 -- sudo salt-call state.sls forticlient-vpn.config.clean
