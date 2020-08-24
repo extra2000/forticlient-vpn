@@ -1,3 +1,5 @@
+{% if grains['os'] == 'CentOS' %}
+
 remove_kernel_headers:
   pkg.removed:
     - pkgs:
@@ -25,3 +27,5 @@ set_kernel_mainline_as_default:
     - name: grub2-mkconfig -o /boot/grub2/grub.cfg
     - onchanges:
       - file: set_kernel_mainline_as_default
+
+{% endif %}

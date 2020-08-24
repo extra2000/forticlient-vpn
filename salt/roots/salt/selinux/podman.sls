@@ -1,3 +1,5 @@
+{% if grains['os'] == 'CentOS' %}
+
 /root/podman.te:
   file.managed:
     - source: salt://selinux/policies/podman.te
@@ -24,3 +26,5 @@ load_podman_pp_file:
   cmd.run:
     - name: semodule -i podman.pp
     - cwd: "/root"
+
+{% endif %}
