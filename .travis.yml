@@ -17,15 +17,14 @@ jobs:
         - sudo dpkg -i vagrant_2.2.9_x86_64.deb
         - sudo vagrant plugin install vagrant-libvirt vagrant-scp vagrant-reload
       script:
-        - touch salt/roots/salt/forticlient/secrets/mycert.p12
-        - echo '{"credential":{"server":"192.168.1.1","certificate":"mycert.p12","certpasswd":"abcde12345"}}' > salt/roots/pillar/credential.sls
-        - cat salt/roots/pillar/credential.sls
-        - sudo vagrant up --provider=libvirt
-        - travis_wait sudo vagrant ssh forticlient-centos7 -- sudo salt-call state.highstate saltenv=base
-        - sudo vagrant reload
-        - sudo vagrant ssh forticlient-centos7 -- sudo salt-call state.sls forticlient.host.present
-        - sudo vagrant ssh forticlient-centos7 -- sudo salt-call state.sls forticlient.podman.present
-        - sudo vagrant destroy --force
+        - touch salt/roots/formulas/forticlient-vpn-formula/forticlient-vpn/files/secrets/mycert.p12
+        - echo '{"credential":{"server":"192.168.1.1","certificate":"mycert.p12","certpasswd":"abcde12345"}}' > salt/roots/pillar/forticlient.sls
+        - sudo vagrant up --provider=libvirt forticlient-ubuntu1804
+        - travis_wait sudo vagrant ssh forticlient-ubuntu1804 -- sudo salt-call state.sls forticlient-vpn.package
+        - travis_wait sudo vagrant ssh forticlient-ubuntu1804 -- sudo salt-call state.sls forticlient-vpn.config
+        - travis_wait sudo vagrant ssh forticlient-ubuntu1804 -- sudo salt-call state.sls forticlient-vpn.config.clean
+        - travis_wait sudo vagrant ssh forticlient-ubuntu1804 -- sudo salt-call state.sls forticlient-vpn.package.clean
+        - sudo vagrant destroy --force forticlient-ubuntu1804
 
     - stage: release
       install:
