@@ -1,8 +1,0 @@
-{% set forticlient = salt['grains.filter_by']({
-    'RedHat': {
-        'pkgfilename': 'FortiClientFullVPNInstaller_6.4.0.0851.rpm',
-    },
-    'Debian': {
-        'pkgfilename': 'FortiClientFullVPNInstaller_6.4.0.0851.deb',
-    },
-}, grain='os_family') %}

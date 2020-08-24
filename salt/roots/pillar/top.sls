@@ -1,5 +1,4 @@
 base:
   '*':
     - user
-    - credential
-    - forticlient
+    - forticlient-vpn

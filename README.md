@@ -21,44 +21,34 @@ $ cd forticlient-vpn
 ```
 
 
-## Preparations for localhost deployment using Vagrant?
+## Preparations for localhost deployment using Vagrant
 
-Copy your `.p12` certificate file into `salt/roots/salt/forticlient/secrets/`.
+Copy your `.p12` certificate file into `salt/roots/formulas/forticlient-vpn-formula/forticlient-vpn/files/secrets/`.
 
-Create `salt/roots/pillar/credential.sls` file and set your credentials, for example:
+Create `salt/roots/pillar/forticlient-vpn.sls` file as shown below. You may need to modify your credentials:
 ```
-credential:
-  server: 172.1.1.1
-  certificate: mycert.p12
-  certpasswd: abcde12345
-```
-
-Create `forticlient-centos7` Vagrant box and bootstrap it. You may change `libvirt` to other provider such as `virtualbox` or `hyperv`:
-```
-$ vagrant up --provider=libvirt
-$ vagrant ssh forticlient-centos7 -- sudo salt-call state.highstate saltenv=base
-$ vagrant reload
+forticlient-vpn:
+  credential:
+    server: 172.1.1.1
+    certificate: mycert.p12
+    certpasswd: abcde12345
 ```
 
 
-### Deploy without Podman in Vagrant
+## Localhost deployment using Vagrant
+
+Create `forticlient-ubuntu1804` Vagrant box and then SSH into the box. You may change `libvirt` to other provider such as `virtualbox` or `hyperv`:
+```
+$ vagrant up --provider=libvirt forticlient-ubuntu1804
+$ vagrant ssh forticlient-ubuntu1804
+```
 
 Install FortiClient VPN client and deploy using the following commands:
 ```
-$ vagrant ssh forticlient-centos7 -- sudo salt-call state.sls forticlient.host.present
-$ vagrant ssh forticlient-centos7 -- sudo salt-call state.sls forticlient.host.deploy
+$ sudo salt-call state.sls forticlient-vpn
 ```
 
-
-### Deploy using Podman in Vagrant
-
-Build the FortiClient VPN client image:
+To uninstall FortiClient VPN client and clean files:
 ```
-$ vagrant ssh forticlient-centos7 -- sudo salt-call state.sls forticlient.podman.present
-```
-
-To deploy:
-```
-$ vagrant ssh forticlient-centos7
-$ sudo podman run --privileged -it -d --rm --name forticlient-vpn-client localhost/extra2000/forticlient-vpn-client
+$ sudo salt-call state.sls forticlient-vpn.clean
 ```
