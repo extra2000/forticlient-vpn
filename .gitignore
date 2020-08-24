@@ -1,2 +1,2 @@
 .vagrant
-salt/roots/pillar/forticlient.sls
+salt/roots/pillar/forticlient-vpn.sls

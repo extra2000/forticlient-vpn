@@ -25,7 +25,7 @@ $ cd forticlient-vpn
 
 Copy your `.p12` certificate file into `salt/roots/formulas/forticlient-vpn-formula/forticlient-vpn/files/secrets/`.
 
-Create `salt/roots/pillar/forticlient.sls` file as shown below. You may need to modify your credentials:
+Create `salt/roots/pillar/forticlient-vpn.sls` file as shown below. You may need to modify your credentials:
 ```
 forticlient-vpn:
   credential:
