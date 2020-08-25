@@ -52,3 +52,16 @@ To uninstall FortiClient VPN client and clean files:
 ```
 $ sudo salt-call state.sls forticlient-vpn.clean
 ```
+
+## Allow other devices to route VPN
+
+On `forticlient-ubuntu1804` execute the following commands:
+```
+$ for iface in $(ip a | grep eth | grep inet | awk '{print $2}'); do sudo iptables -t nat -A POSTROUTING -s "$iface" -j MASQUERADE; done
+$ sudo sysctl -w net.ipv4.ip_forward=1
+```
+
+Supposed that you need to SSH to `172.168.100.64` from host, execute the following `ip route` command on host:
+```
+$ sudo ip route add 172.168.0.0/16 via `sudo virsh net-dhcp-leases vagrant-libvirt | grep forticlient-box | awk '{print $5}' | gawk 'match($0, /(.*)\//, a) {print a[1]}'
+```
